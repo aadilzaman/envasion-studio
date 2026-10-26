@@ -56,11 +56,6 @@ export const apiService = {
     deleteTask(id) {
         return api.delete(`/tasks/${id}`).then(res => res.data);
     },
-
-    // Mock Data Reset
-    resetMockData() {
-        return api.post('/reset-mock-data').then(res => res.data);
-    },
 };
 
 export default api;

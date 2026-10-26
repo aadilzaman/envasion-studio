@@ -52,7 +52,6 @@ The application allows agency project managers to oversee client initiatives, tr
 | **Delete Project** | Removal workflow with a confirmation prompt warning about cascading task removal. |
 | **Project Detail View** | Dedicated page displaying complete project details, milestone statistics, and comprehensive task management. |
 | **Task Management** | Add new tasks, edit existing tasks, delete tasks with confirmation, filter tasks by status (`Pending`, `In Progress`, `Completed`), and quick-toggle completion status directly via checkboxes. |
-| **Reset Mock Data** | One-click helper button in the header calling `/api/reset-mock-data` to easily reset the database to the assessment's original 10 projects & 20 tasks at any time. |
 
 ---
 
@@ -82,9 +81,6 @@ All endpoints return standardized JSON structures: `{ "success": true, "data": .
 - `PUT/PATCH /api/tasks/{id}` — Update a task's title, description, or status.
 - `PATCH /api/tasks/{id}/toggle` — Quick-toggle task completion (`Completed` ↔ `Pending`).
 - `DELETE /api/tasks/{id}` — Delete a task.
-
-### **Reviewer Utility**
-- `POST /api/reset-mock-data` — Restores database to the initial 10 projects and 20 tasks.
 
 ---
 
@@ -194,7 +190,7 @@ If recording a video walkthrough, consider following this structure:
    - Navigate into the project detail view.
    - Add a task, check it off (observe the completion bar advance), edit the task, and delete it.
    - Demonstrate the confirmation modal.
-4. **Codebase Architecture & Conclusion (2:15 - 3:00)**: Highlight the clean project structure (`app/Http/Controllers/Api`, `database/seeders`, `resources/js/views`), run `php artisan test`, and demonstrate the "Reset Mock Data" button.
+4. **Codebase Architecture & Conclusion (2:15 - 3:00)**: Highlight the clean project structure (`app/Http/Controllers/Api`, `database/seeders`, `resources/js/views`), and run `php artisan test` demonstrating passing tests.
 
 ---
 

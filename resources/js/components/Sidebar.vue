@@ -94,30 +94,6 @@
                         <i class="fa-solid fa-plus text-xs"></i>
                         <span>New Project</span>
                     </button>
-
-                    <button
-                        @click="handleResetMockData"
-                        :disabled="isResetting"
-                        class="w-full flex items-center justify-center gap-2 px-3.5 py-2 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition-all disabled:opacity-50"
-                        title="Restore initial 10 projects & 20 tasks"
-                    >
-                        <i class="fa-solid fa-arrows-rotate text-xs" :class="{ 'fa-spin': isResetting }"></i>
-                        <span>{{ isResetting ? 'Resetting...' : 'Reset Mock Data' }}</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Footer / System Meta in Sidebar -->
-            <div class="p-4 m-4 bg-slate-50 border border-slate-200/80 rounded-2xl space-y-2">
-                <div class="flex items-center justify-between text-xs text-slate-600">
-                    <span class="font-medium">System Status</span>
-                    <span class="inline-flex items-center gap-1.5 text-emerald-600 font-semibold text-[11px]">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        Live API
-                    </span>
-                </div>
-                <div class="text-[11px] text-slate-400">
-                    Laravel 12 + Vue 3 Light UI
                 </div>
             </div>
         </aside>
@@ -126,30 +102,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import { apiService } from '../services/api';
-import { useToast } from '../services/toast';
 
-const emit = defineEmits(['open-create-project', 'data-refreshed']);
-const { success, error } = useToast();
+defineEmits(['open-create-project']);
 
 const mobileSidebarOpen = ref(false);
-const isResetting = ref(false);
-
-const handleResetMockData = async () => {
-    if (!confirm('Are you sure you want to restore the database to the original 10 sample projects and 20 tasks?')) {
-        return;
-    }
-
-    try {
-        isResetting.value = true;
-        await apiService.resetMockData();
-        success('Database successfully reset to original mock dataset!');
-        emit('data-refreshed');
-        mobileSidebarOpen.value = false;
-    } catch (err) {
-        error(err.response?.data?.message || 'Failed to reset mock data.');
-    } finally {
-        isResetting.value = false;
-    }
-};
 </script>

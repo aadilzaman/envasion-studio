@@ -1,9 +1,8 @@
 <template>
     <div class="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
-        <!-- Modern Left Sidebar (replaces the top navbar) -->
+        <!-- Modern Left Sidebar -->
         <Sidebar
             @open-create-project="isCreateModalOpen = true"
-            @data-refreshed="handleGlobalDataRefresh"
         />
 
         <!-- Main Content Wrapper (Shifted right on desktop to accommodate the sidebar) -->
@@ -30,9 +29,6 @@
                         <span class="font-medium text-slate-600">EnvisionStudio • Web Developer Practical Assessment</span>
                     </div>
                     <div class="flex items-center gap-4">
-                        <span class="px-2.5 py-1 rounded-md bg-slate-100 border border-slate-200 text-[11px] font-mono text-slate-600">
-                            Laravel 12 + Vue 3 Light UI
-                        </span>
                         <a
                             href="/api/projects"
                             target="_blank"
@@ -77,16 +73,6 @@ const handleGlobalProjectSaved = (newProject) => {
         currentViewComponent.value.fetchSummary();
     } else {
         router.push(`/projects/${newProject.id}`);
-    }
-};
-
-const handleGlobalDataRefresh = () => {
-    if (currentViewComponent.value?.fetchProjects) {
-        currentViewComponent.value.fetchProjects();
-    } else if (currentViewComponent.value?.fetchSummary) {
-        currentViewComponent.value.fetchSummary();
-    } else if (currentViewComponent.value?.fetchProject) {
-        currentViewComponent.value.fetchProject();
     }
 };
 </script>
