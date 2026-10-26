@@ -27,10 +27,12 @@ The application allows agency project managers to oversee client initiatives, tr
   - **Composition API (`<script setup>`)** enables modular, maintainable, and reactive code structure.
   - **Single Page Application (SPA)** with **Vue Router** for seamless, instantaneous page transitions between the Dashboard overview, Projects directory, and Project Detail views without full page reloads.
   - **Centralized API Service** utilizing Axios with error interceptors and reactive feedback.
-  - **Component-driven Design**: Modular, reusable components (`Navbar`, `StatusBadge`, `ProjectModal`, `TaskModal`, `ConfirmModal`, `ToastContainer`).
+  - **Component-driven Design**: Modular, reusable components (`Sidebar`, `StatusBadge`, `ProjectModal`, `TaskModal`, `ConfirmModal`, `ToastContainer`).
 
-### **Styling: Tailwind CSS (Modern Agency Dark Theme)**
-- Designed with an intentional **dark theme** (`slate-950` deep background, glassmorphism card surfaces, glowing accent badges, and clean typography via Inter).
+### **Styling & UI: Tailwind CSS (Clean Light Theme) & FontAwesome 6**
+- Designed with an intentional, crisp **modern light theme** (`slate-50` background, clean white card surfaces, soft borders, and refined typography via Inter).
+- **FontAwesome 6 Icons** implemented across all actions, buttons, tabs, and status badges.
+- **Modern Sidebar Navigation**: Fixed left-hand navigation on desktop and collapsible drawer on mobile, replacing the traditional top navbar for maximum dashboard usability.
 - Fully responsive across desktop, tablet, and mobile screens.
 
 ### **Database: SQLite (Zero-Config) / MySQL Supported**

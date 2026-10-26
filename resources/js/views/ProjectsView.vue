@@ -3,42 +3,40 @@
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                    Projects <span class="text-indigo-400">Directory</span>
+                <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
+                    Projects <span class="text-indigo-600">Directory</span>
                 </h1>
-                <p class="mt-1 text-sm text-slate-400">
+                <p class="mt-1 text-sm text-slate-500">
                     Track, filter, and manage all client projects and deliverables.
                 </p>
             </div>
             <button
                 @click="openCreateModal"
-                class="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl shadow-lg shadow-indigo-600/30 transition transform active:scale-95 self-start sm:self-auto"
+                class="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-md shadow-indigo-100 transition transform active:scale-95 self-start sm:self-auto"
             >
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
+                <i class="fa-solid fa-plus text-xs"></i>
                 <span>Add Project</span>
             </button>
         </div>
 
         <!-- Filter & Control Toolbar -->
-        <div class="p-4 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="p-4 bg-white border border-slate-200 rounded-2xl shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
             <!-- Status Filter Tabs -->
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
                 <button
                     v-for="statusOption in statusOptions"
                     :key="statusOption"
                     @click="setStatusFilter(statusOption)"
-                    class="px-3.5 py-1.5 rounded-xl text-xs font-semibold transition shrink-0"
+                    class="px-3.5 py-1.5 rounded-xl text-xs font-bold transition shrink-0"
                     :class="selectedStatus === statusOption
-                        ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
-                        : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'"
+                        ? 'bg-indigo-600 text-white shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'"
                 >
                     {{ statusOption }}
                     <span
                         v-if="projectCountByStatus(statusOption) !== null"
                         class="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px]"
-                        :class="selectedStatus === statusOption ? 'bg-indigo-700 text-white' : 'bg-slate-800 text-slate-400'"
+                        :class="selectedStatus === statusOption ? 'bg-indigo-700 text-white' : 'bg-slate-100 text-slate-600'"
                     >
                         {{ projectCountByStatus(statusOption) }}
                     </span>
@@ -54,18 +52,16 @@
                         @input="handleSearch"
                         type="text"
                         placeholder="Search projects..."
-                        class="w-full pl-9 pr-3.5 py-1.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        class="w-full pl-9 pr-3.5 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     />
-                    <svg class="w-4 h-4 text-slate-500 absolute left-3 top-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
+                    <i class="fa-solid fa-magnifying-glass text-slate-400 absolute left-3 top-2.5 text-xs"></i>
                 </div>
 
                 <!-- Sort Order -->
                 <select
                     v-model="sortBy"
                     @change="fetchProjects"
-                    class="px-3 py-1.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer"
                 >
                     <option value="created_at">Newest First</option>
                     <option value="deadline">Upcoming Deadline</option>
@@ -74,26 +70,22 @@
                 </select>
 
                 <!-- View Layout Toggle (Card vs Table) -->
-                <div class="flex items-center p-0.5 bg-slate-950 border border-slate-800 rounded-xl">
+                <div class="flex items-center p-0.5 bg-slate-100 border border-slate-200 rounded-xl">
                     <button
                         @click="viewLayout = 'cards'"
-                        title="Grid / Card Layout"
-                        class="p-1.5 rounded-lg transition"
-                        :class="viewLayout === 'cards' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-slate-200'"
+                        title="Card Layout"
+                        class="p-1.5 rounded-lg transition text-xs"
+                        :class="viewLayout === 'cards' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500 hover:text-slate-900'"
                     >
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                        </svg>
+                        <i class="fa-solid fa-grip"></i>
                     </button>
                     <button
                         @click="viewLayout = 'table'"
                         title="Table Layout"
-                        class="p-1.5 rounded-lg transition"
-                        :class="viewLayout === 'table' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-slate-200'"
+                        class="p-1.5 rounded-lg transition text-xs"
+                        :class="viewLayout === 'table' ? 'bg-white text-indigo-600 shadow-xs' : 'text-slate-500 hover:text-slate-900'"
                     >
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                        </svg>
+                        <i class="fa-solid fa-table-list"></i>
                     </button>
                 </div>
             </div>
@@ -101,48 +93,46 @@
 
         <!-- Loading State Skeleton -->
         <div v-if="loading && !projects.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div v-for="i in 6" :key="i" class="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl animate-pulse space-y-4">
-                <div class="h-5 w-3/4 bg-slate-800 rounded"></div>
-                <div class="h-14 w-full bg-slate-800/60 rounded"></div>
-                <div class="h-4 w-1/2 bg-slate-800 rounded"></div>
+            <div v-for="i in 6" :key="i" class="p-6 bg-white border border-slate-200 rounded-2xl animate-pulse space-y-4 shadow-xs">
+                <div class="h-5 w-3/4 bg-slate-100 rounded"></div>
+                <div class="h-14 w-full bg-slate-50 rounded"></div>
+                <div class="h-4 w-1/2 bg-slate-100 rounded"></div>
             </div>
         </div>
 
         <!-- Error State -->
-        <div v-else-if="error" class="p-6 bg-rose-500/10 border border-rose-500/30 rounded-2xl text-center space-y-3">
-            <p class="text-rose-400 font-medium">{{ error }}</p>
+        <div v-else-if="error" class="p-6 bg-rose-50 border border-rose-200 rounded-2xl text-center space-y-3">
+            <p class="text-rose-700 font-semibold">{{ error }}</p>
             <button
                 @click="fetchProjects"
-                class="px-4 py-2 text-xs font-semibold text-white bg-rose-600 hover:bg-rose-500 rounded-xl"
+                class="px-4 py-2 text-xs font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-xl"
             >
                 Retry
             </button>
         </div>
 
         <!-- Empty State -->
-        <div v-else-if="!projects.length" class="p-12 bg-slate-900/40 border border-slate-800/80 rounded-2xl text-center space-y-4">
-            <div class="w-12 h-12 mx-auto rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center">
-                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
+        <div v-else-if="!projects.length" class="p-12 bg-white border border-slate-200 rounded-2xl text-center space-y-4 shadow-xs">
+            <div class="w-12 h-12 mx-auto rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
+                <i class="fa-solid fa-folder-open"></i>
             </div>
             <div>
-                <h3 class="text-base font-bold text-slate-200">No projects found</h3>
-                <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
+                <h3 class="text-base font-bold text-slate-800">No projects found</h3>
+                <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
                     {{ searchQuery || selectedStatus !== 'All' ? 'Try adjusting your filter or search query.' : 'Get started by creating your first project.' }}
                 </p>
             </div>
             <button
                 v-if="searchQuery || selectedStatus !== 'All'"
                 @click="resetFilters"
-                class="px-4 py-2 text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 rounded-xl transition"
+                class="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition"
             >
                 Clear Filters
             </button>
             <button
                 v-else
                 @click="openCreateModal"
-                class="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 rounded-xl transition"
+                class="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition"
             >
                 Create Project
             </button>
@@ -153,7 +143,7 @@
             <div
                 v-for="project in projects"
                 :key="project.id"
-                class="group flex flex-col justify-between p-6 bg-slate-900/80 hover:bg-slate-900 border border-slate-800/80 hover:border-slate-700 rounded-2xl shadow-xl transition-all duration-200"
+                class="group flex flex-col justify-between p-6 bg-white hover:bg-slate-50/50 border border-slate-200 hover:border-slate-300 rounded-2xl shadow-xs hover:shadow-md transition-all duration-200"
             >
                 <div>
                     <!-- Top row: Status and actions -->
@@ -163,20 +153,16 @@
                             <button
                                 @click="openEditModal(project)"
                                 title="Edit Project Details"
-                                class="p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-slate-800 rounded-lg transition"
+                                class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
                             >
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                </svg>
+                                <i class="fa-solid fa-pen-to-square text-xs"></i>
                             </button>
                             <button
                                 @click="confirmDelete(project)"
                                 title="Delete Project"
-                                class="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition"
+                                class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
                             >
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                </svg>
+                                <i class="fa-solid fa-trash-can text-xs"></i>
                             </button>
                         </div>
                     </div>
@@ -184,31 +170,31 @@
                     <!-- Title -->
                     <router-link
                         :to="`/projects/${project.id}`"
-                        class="text-lg font-bold text-slate-100 hover:text-indigo-400 transition block line-clamp-1 group-hover:text-indigo-300"
+                        class="text-lg font-bold text-slate-900 hover:text-indigo-600 transition block line-clamp-1 group-hover:text-indigo-600"
                     >
                         {{ project.title }}
                     </router-link>
 
                     <!-- Description -->
-                    <p class="mt-2 text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                    <p class="mt-2 text-xs text-slate-500 line-clamp-2 leading-relaxed">
                         {{ project.description || 'No description provided.' }}
                     </p>
                 </div>
 
                 <!-- Footer details -->
-                <div class="mt-6 pt-4 border-t border-slate-800/80 space-y-3">
+                <div class="mt-6 pt-4 border-t border-slate-100 space-y-3">
                     <!-- Progress Bar -->
                     <div>
-                        <div class="flex items-center justify-between text-[11px] font-medium text-slate-400 mb-1.5">
+                        <div class="flex items-center justify-between text-[11px] font-semibold text-slate-500 mb-1.5">
                             <span>Tasks Progress</span>
-                            <span class="text-slate-300">
+                            <span class="text-slate-700">
                                 {{ project.completed_tasks_count || 0 }} / {{ project.tasks_count || 0 }}
                                 ({{ calculatePercentage(project.completed_tasks_count, project.tasks_count) }}%)
                             </span>
                         </div>
-                        <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
                             <div
-                                class="bg-gradient-to-r from-indigo-500 to-cyan-500 h-1.5 rounded-full transition-all duration-300"
+                                class="bg-gradient-to-r from-indigo-500 to-blue-500 h-2 rounded-full transition-all duration-300"
                                 :style="{ width: calculatePercentage(project.completed_tasks_count, project.tasks_count) + '%' }"
                             ></div>
                         </div>
@@ -216,21 +202,17 @@
 
                     <!-- Deadline and View Link -->
                     <div class="flex items-center justify-between pt-1">
-                        <div class="flex items-center gap-1.5 text-xs text-slate-400">
-                            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
+                        <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                            <i class="fa-regular fa-calendar-days text-slate-400"></i>
                             <span>{{ project.deadline ? formatDate(project.deadline) : 'No deadline' }}</span>
                         </div>
 
                         <router-link
                             :to="`/projects/${project.id}`"
-                            class="inline-flex items-center gap-1 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition"
+                            class="inline-flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition"
                         >
                             <span>View Details</span>
-                            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
+                            <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </router-link>
                     </div>
                 </div>
@@ -238,9 +220,9 @@
         </div>
 
         <!-- TABLE VIEW -->
-        <div v-else class="overflow-x-auto bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xl">
-            <table class="w-full text-left text-sm text-slate-300">
-                <thead class="bg-slate-950/70 border-b border-slate-800 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+        <div v-else class="overflow-x-auto bg-white border border-slate-200 rounded-2xl shadow-xs">
+            <table class="w-full text-left text-sm text-slate-600">
+                <thead class="bg-slate-50 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
                     <tr>
                         <th scope="col" class="py-3.5 px-4">Title & Details</th>
                         <th scope="col" class="py-3.5 px-4">Status</th>
@@ -249,20 +231,20 @@
                         <th scope="col" class="py-3.5 px-4 text-right">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-800/60">
+                <tbody class="divide-y divide-slate-100">
                     <tr
                         v-for="project in projects"
                         :key="project.id"
-                        class="hover:bg-slate-800/40 transition group"
+                        class="hover:bg-slate-50/70 transition group"
                     >
                         <td class="py-4 px-4 min-w-[240px]">
                             <router-link
                                 :to="`/projects/${project.id}`"
-                                class="font-bold text-slate-100 hover:text-indigo-400 transition"
+                                class="font-bold text-slate-900 hover:text-indigo-600 transition"
                             >
                                 {{ project.title }}
                             </router-link>
-                            <p class="text-xs text-slate-400 line-clamp-1 mt-0.5">
+                            <p class="text-xs text-slate-500 line-clamp-1 mt-0.5">
                                 {{ project.description || 'No description' }}
                             </p>
                         </td>
@@ -271,18 +253,18 @@
                         </td>
                         <td class="py-4 px-4 whitespace-nowrap min-w-[160px]">
                             <div class="flex items-center gap-2">
-                                <div class="w-24 bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                                <div class="w-24 bg-slate-100 rounded-full h-2 overflow-hidden">
                                     <div
-                                        class="bg-indigo-500 h-1.5 rounded-full"
+                                        class="bg-indigo-600 h-2 rounded-full"
                                         :style="{ width: calculatePercentage(project.completed_tasks_count, project.tasks_count) + '%' }"
                                     ></div>
                                 </div>
-                                <span class="text-xs text-slate-400 font-mono">
+                                <span class="text-xs text-slate-600 font-mono font-medium">
                                     {{ project.completed_tasks_count }}/{{ project.tasks_count }}
                                 </span>
                             </div>
                         </td>
-                        <td class="py-4 px-4 whitespace-nowrap text-xs text-slate-400 font-mono">
+                        <td class="py-4 px-4 whitespace-nowrap text-xs text-slate-500 font-medium">
                             {{ project.deadline ? formatDate(project.deadline) : 'N/A' }}
                         </td>
                         <td class="py-4 px-4 whitespace-nowrap text-right">
@@ -290,30 +272,23 @@
                                 <router-link
                                     :to="`/projects/${project.id}`"
                                     title="View Details"
-                                    class="p-1.5 text-slate-400 hover:text-slate-200 hover:bg-slate-800 rounded-lg transition"
+                                    class="p-2 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition"
                                 >
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
+                                    <i class="fa-solid fa-eye text-xs"></i>
                                 </router-link>
                                 <button
                                     @click="openEditModal(project)"
                                     title="Edit Project"
-                                    class="p-1.5 text-slate-400 hover:text-indigo-400 hover:bg-slate-800 rounded-lg transition"
+                                    class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
                                 >
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                    </svg>
+                                    <i class="fa-solid fa-pen-to-square text-xs"></i>
                                 </button>
                                 <button
                                     @click="confirmDelete(project)"
                                     title="Delete Project"
-                                    class="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition"
+                                    class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
                                 >
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
                                 </button>
                             </div>
                         </td>
@@ -386,7 +361,6 @@ const fetchProjects = async () => {
         const response = await apiService.getProjects(params);
         projects.value = response.data;
 
-        // Fetch count reference if not loaded or when on 'All'
         if (selectedStatus.value === 'All' && !searchQuery.value) {
             allProjectsForCounts.value = response.data;
         }

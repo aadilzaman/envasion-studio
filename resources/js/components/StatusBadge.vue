@@ -21,29 +21,29 @@ const props = defineProps({
 const badgeClasses = computed(() => {
     switch (props.status) {
         case 'Active':
-            return 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+            return 'bg-emerald-50 text-emerald-700 border-emerald-200';
         case 'Completed':
-            return 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30';
+            return 'bg-blue-50 text-blue-700 border-blue-200';
         case 'On Hold':
-            return 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+            return 'bg-amber-50 text-amber-700 border-amber-200';
         case 'In Progress':
-            return 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30';
+            return 'bg-purple-50 text-purple-700 border-purple-200';
         case 'Pending':
         default:
-            return 'bg-slate-500/10 text-slate-400 border-slate-500/30';
+            return 'bg-slate-100 text-slate-600 border-slate-200';
     }
 });
 
 const dotClasses = computed(() => {
     switch (props.status) {
         case 'Active':
-            return 'bg-emerald-400 animate-pulse';
+            return 'bg-emerald-500 animate-pulse';
         case 'Completed':
-            return 'bg-cyan-400';
+            return 'bg-blue-500';
         case 'On Hold':
-            return 'bg-amber-400';
+            return 'bg-amber-500';
         case 'In Progress':
-            return 'bg-indigo-400 animate-pulse';
+            return 'bg-purple-500 animate-pulse';
         case 'Pending':
         default:
             return 'bg-slate-400';

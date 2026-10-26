@@ -11,24 +11,30 @@
             <div
                 v-for="toast in toasts"
                 :key="toast.id"
-                class="pointer-events-auto flex items-center justify-between p-4 rounded-xl shadow-2xl border backdrop-blur-md"
+                class="pointer-events-auto flex items-center justify-between p-4 rounded-2xl shadow-xl border bg-white backdrop-blur-md"
                 :class="{
-                    'bg-slate-900/95 border-emerald-500/40 text-emerald-400': toast.type === 'success',
-                    'bg-slate-900/95 border-rose-500/40 text-rose-400': toast.type === 'error',
-                    'bg-slate-900/95 border-indigo-500/40 text-indigo-400': toast.type === 'info',
+                    'border-emerald-200 text-slate-800': toast.type === 'success',
+                    'border-rose-200 text-slate-800': toast.type === 'error',
+                    'border-indigo-200 text-slate-800': toast.type === 'info',
                 }"
             >
                 <div class="flex items-center gap-3">
-                    <span v-if="toast.type === 'success'" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                    <span v-else-if="toast.type === 'error'" class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
-                    <span v-else class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
-                    <p class="text-sm font-medium text-slate-100">{{ toast.message }}</p>
+                    <span v-if="toast.type === 'success'" class="text-emerald-500 text-lg">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </span>
+                    <span v-else-if="toast.type === 'error'" class="text-rose-500 text-lg">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                    </span>
+                    <span v-else class="text-indigo-500 text-lg">
+                        <i class="fa-solid fa-circle-info"></i>
+                    </span>
+                    <p class="text-sm font-semibold text-slate-700">{{ toast.message }}</p>
                 </div>
                 <button
                     @click="removeToast(toast.id)"
-                    class="ml-3 text-slate-400 hover:text-slate-200 transition"
+                    class="ml-3 text-slate-400 hover:text-slate-600 transition"
                 >
-                    &times;
+                    <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
         </transition-group>
