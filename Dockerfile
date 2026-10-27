@@ -49,6 +49,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Prepare environment and SQLite database
 RUN cp .env.example .env \
+    && sed -i 's/APP_ENV=local/APP_ENV=production/' .env \
+    && sed -i 's/APP_DEBUG=true/APP_DEBUG=false/' .env \
+    && sed -i 's#APP_URL=http://localhost#APP_URL=https://envasion-studio.onrender.com#' .env \
     && php artisan key:generate \
     && touch database/database.sqlite \
     && php artisan migrate --force \
@@ -57,8 +60,10 @@ RUN cp .env.example .env \
     && php artisan route:cache \
     && php artisan view:cache
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
+# Set permissions for Apache and SQLite
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database \
+    && chmod 664 /var/www/html/database/database.sqlite
 
 EXPOSE 80
 

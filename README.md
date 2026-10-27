@@ -8,7 +8,7 @@ The application allows agency project managers to oversee client initiatives, tr
 
 ## 🚀 Live Demo & Repository
 
-- **Live URL**: `[Insert your deployed URL here, e.g., https://envisionstudio-dashboard.onrender.com]`
+- **Live URL**: `https://envasion-studio.onrender.com`
 - **GitHub Repository**: `https://github.com/aadilzaman/envasion-studio`
 
 ---
